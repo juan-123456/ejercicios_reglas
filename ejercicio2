@@ -1,3 +1,6 @@
+"###### 3.1.  Column headers are values, not variable names\n",
+    "This common error is about using values as a name in columns."
+
 In [9]:
 import pandas as pd
 df_tb=pd.read_csv('https://raw.githubusercontent.com/hadley/tidy-data/master/data/tb.csv')
