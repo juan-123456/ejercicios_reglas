@@ -1,5 +1,6 @@
 + Column headers are values, not variable names
 
++ Add the libraries we need along with the data of the link we have and it will show us the data in a disorderly way
 
 In [9]:
 import pandas as pd
@@ -13,6 +14,8 @@ Index(['iso2', 'year', 'new_sp', 'new_sp_m04', 'new_sp_m514', 'new_sp_m014',
        'new_sp_f4554', 'new_sp_f5564', 'new_sp_f65', 'new_sp_fu'],
       dtype='object')
       
++ It shows the format of the data table with the number of rows and columns 
+      
  In [10]:
 df_tb.tail()
 Out[10]:
@@ -24,6 +27,7 @@ iso2	year	new_sp	new_sp_m04	new_sp_m514	new_sp_m014	new_sp_m1524	new_sp_m2534	ne
 5768	ZW	2008	9830.0	NaN	NaN	127.0	614.0	0.0	3316.0	704.0	...	NaN	NaN	145.0	840.0	0.0	2890.0	467.0	174.0	105.0	0.0
 5 rows × 23 columns
 
++ a name is created for the columns and the variables are assigned to have their rows sorted
 
 In [13]:
 df_tb=df_tb.melt(id_vars=["iso2","year"],var_name=["demographic"],value_name="cases")
@@ -36,6 +40,7 @@ iso2	year	demographic	cases
 13011	DZ	1991	new_sp_m514	NaN
 88070	EE	1995	new_sp_f2534	NaN
 
++ the demographic column is divided into 2 which are sex and age to have an order
 
 In [14]:
 df_tb=(df_tb.assign(
@@ -52,7 +57,7 @@ iso2	year	cases	sex	age
 11457	ZA	1984	NaN	n	ew_sp_m04
 
 
-
++ Now, each observation has its own row and each variable has its own column.
 
 In [15]:
 df_tb.update(pd.DataFrame({"age":[age[:2]+'-'+age[2:] if len(age) == 4 else (age) for age in df_tb["age"]]}))
