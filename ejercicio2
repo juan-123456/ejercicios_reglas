@@ -1,5 +1,5 @@
-"###### 3.1.  Column headers are values, not variable names\n",
-    "This common error is about using values as a name in columns."
+###### 3.1.  Column headers are values, not variable names\n
+
 
 In [9]:
 import pandas as pd
