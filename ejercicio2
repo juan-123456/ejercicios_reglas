@@ -1,1 +1,70 @@
+In [9]:
+import pandas as pd
+df_tb=pd.read_csv('https://raw.githubusercontent.com/hadley/tidy-data/master/data/tb.csv')
+df_tb.columns
+Out[9]:
+Index(['iso2', 'year', 'new_sp', 'new_sp_m04', 'new_sp_m514', 'new_sp_m014',
+       'new_sp_m1524', 'new_sp_m2534', 'new_sp_m3544', 'new_sp_m4554',
+       'new_sp_m5564', 'new_sp_m65', 'new_sp_mu', 'new_sp_f04', 'new_sp_f514',
+       'new_sp_f014', 'new_sp_f1524', 'new_sp_f2534', 'new_sp_f3544',
+       'new_sp_f4554', 'new_sp_f5564', 'new_sp_f65', 'new_sp_fu'],
+      dtype='object')
+      
+ In [10]:
+df_tb.tail()
+Out[10]:
+iso2	year	new_sp	new_sp_m04	new_sp_m514	new_sp_m014	new_sp_m1524	new_sp_m2534	new_sp_m3544	new_sp_m4554	...	new_sp_f04	new_sp_f514	new_sp_f014	new_sp_f1524	new_sp_f2534	new_sp_f3544	new_sp_f4554	new_sp_f5564	new_sp_f65	new_sp_fu
+5764	ZW	2004	14581.0	NaN	NaN	187.0	833.0	2908.0	2298.0	1056.0	...	NaN	NaN	225.0	1140.0	2858.0	1565.0	622.0	214.0	111.0	NaN
+5765	ZW	2005	13155.0	NaN	NaN	210.0	837.0	2264.0	1855.0	762.0	...	NaN	NaN	269.0	1136.0	2242.0	1255.0	578.0	193.0	603.0	NaN
+5766	ZW	2006	12718.0	NaN	NaN	215.0	736.0	2391.0	1939.0	896.0	...	NaN	NaN	237.0	1020.0	2424.0	1355.0	632.0	230.0	96.0	NaN
+5767	ZW	2007	10583.0	6.0	132.0	138.0	500.0	3693.0	0.0	716.0	...	7.0	178.0	185.0	739.0	3311.0	0.0	553.0	213.0	90.0	NaN
+5768	ZW	2008	9830.0	NaN	NaN	127.0	614.0	0.0	3316.0	704.0	...	NaN	NaN	145.0	840.0	0.0	2890.0	467.0	174.0	105.0	0.0
+5 rows × 23 columns
 
+
+In [13]:
+df_tb=df_tb.melt(id_vars=["iso2","year"],var_name=["demographic"],value_name="cases")
+df_tb.sample(5)
+Out[13]:
+iso2	year	demographic	cases
+114032	RS	2007	new_sp_f65	135.0
+85594	ST	1981	new_sp_f1524	NaN
+17083	VN	1998	new_sp_m514	NaN
+13011	DZ	1991	new_sp_m514	NaN
+88070	EE	1995	new_sp_f2534	NaN
+
+
+In [14]:
+df_tb=(df_tb.assign(
+sex = lambda x: x.demographic.str[0].astype(str),
+age = lambda x: x.demographic.str[1:].astype(str))
+      .drop("demographic",axis=1))
+df_tb.sample(5)
+Out[14]:
+iso2	year	cases	sex	age
+115047	UZ	2004	226.0	n	ew_sp_f65
+76144	CN	2000	1420.0	n	ew_sp_f014
+55986	PE	1994	NaN	n	ew_sp_m65
+119492	PG	1983	NaN	n	ew_sp_fu
+11457	ZA	1984	NaN	n	ew_sp_m04
+
+
+
+
+In [15]:
+df_tb.update(pd.DataFrame({"age":[age[:2]+'-'+age[2:] if len(age) == 4 else (age) for age in df_tb["age"]]}))
+df_tb=(df_tb.replace(to_replace =["m","f","014","65","u"],value =["Male","Female","0-14","65+","unknown"])
+            .dropna())
+df_tb.sample(10)
+Out[15]:
+iso2	year	cases	sex	age
+21046	NC	2005	0.0	n	ew_sp_m014
+26237	MA	2004	2081.0	n	ew_sp_m1524
+14829	MK	2005	2.0	n	ew_sp_m514
+13787	HU	2008	0.0	n	ew_sp_m514
+93893	ER	2002	52.0	n	ew_sp_f3544
+102862	SO	2000	110.0	n	ew_sp_f4554
+99986	GM	1997	20.0	n	ew_sp_f4554
+9788	OM	2006	0.0	n	ew_sp_m04
+29286	BD	2004	8281.0	n	ew_sp_m2534
+2020	GT	2001	1669.0	n	ew_sp
