@@ -1,9 +1,11 @@
++ First we create our library to create a name to the data that is added from the link and then show us what we add
+
 In [59]:
 # import pandas as pd
 university = pd.read_csv("https://raw.githubusercontent.com/juan-123456/tareas1/master/tarea2")
 print("Year in which he attended school, with his month and day")
 university
-Year in which he attended school, with his month and day
+
 
 Out[59]:
 Escuela	Año	Nivel	Mes	Dia1	Dia2	Dia3	Dia4	Dia5	Dia6	Dia7
@@ -17,6 +19,9 @@ Escuela	Año	Nivel	Mes	Dia1	Dia2	Dia3	Dia4	Dia5	Dia6	Dia7
 7	CEUM	2020	Min	4	521	19	97	329	206	318	8
 8	TECNICA	2020	Max	5	29	21	33	21	11	31	11
 9	CTM	2020	Min	5	26	266	244	122	23	244	22
+
+
++ We classify the table as we have done before, this served to obtain the day number stored in the date column and pass the level rows as two columns: Min. and Max. Then to get the date, we must concatenate the Year, Month and Date columns. 
 
 In [50]:
 ​
@@ -33,6 +38,9 @@ university = university.reset_index()
 print("Cleaned table")
 university.head(10)
 Cleaned table
+
++
+
 
 Out[50]:
 Escuela	Date	Max	Min
