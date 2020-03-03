@@ -1,4 +1,52 @@
+In [59]:
 # import pandas as pd
 university = pd.read_csv("https://raw.githubusercontent.com/juan-123456/tareas1/master/tarea2")
 print("Year in which he attended school, with his month and day")
 university
+Year in which he attended school, with his month and day
+
+Out[59]:
+Escuela	Año	Nivel	Mes	Dia1	Dia2	Dia3	Dia4	Dia5	Dia6	Dia7
+0	CONALEP	2020	Max	1	23	11	24	23	22	33	13
+1	UADY	2020	Min	1	28	16	219	18	17	28	12
+2	CEBTIS	2020	Max	2	20	44	31	11	21	21	11
+3	COBAY	2020	Min	2	31	21	28	8	30	31	11
+4	UPY	2020	Max	3	12	22	23	28	32	224	211
+5	UTM	2020	Min	3	31	20	10	315	12	11	19
+6	DGTIS	2020	Max	4	12	45	123	355	23	344	11
+7	CEUM	2020	Min	4	521	19	97	329	206	318	8
+8	TECNICA	2020	Max	5	29	21	33	21	11	31	11
+9	CTM	2020	Min	5	26	266	244	122	23	244	22
+
+In [50]:
+​
+university = pd.read_csv("https://raw.githubusercontent.com/juan-123456/tareas1/master/tarea2")
+​
+university = pd.melt(university, id_vars=['Escuela', 'Año', 'Nivel', 'Mes'], value_vars=list(university.columns)[4:], var_name='Date', value_name='value')
+university['Date'] = university['Date'].str[3:].astype('int')
+university['Date'] = university[['Año', 'Mes', 'Date']].apply( lambda row: '{:4d}-{:02d}-{:02d}'.format(*row),axis=1)
+university = university.loc[university['value'] != '---', ['Escuela', 'Date', 'Nivel', 'value']]
+university = university.set_index(['Escuela', 'Date', 'Nivel'])
+university = university.unstack()
+university.columns = list(university.columns.get_level_values('Nivel'))
+university = university.reset_index()
+print("Cleaned table")
+university.head(10)
+Cleaned table
+
+Out[50]:
+Escuela	Date	Max	Min
+0	CEBTIS	2020-02-01	20.0	NaN
+1	CEBTIS	2020-02-02	44.0	NaN
+2	CEBTIS	2020-02-03	31.0	NaN
+3	CEBTIS	2020-02-04	11.0	NaN
+4	CEBTIS	2020-02-05	21.0	NaN
+5	CEBTIS	2020-02-06	21.0	NaN
+6	CEBTIS	2020-02-07	11.0	NaN
+7	CEUM	2020-04-01	NaN	521.0
+8	CEUM	2020-04-02	NaN	19.0
+9	CEUM	2020-04-03	NaN	97.0
+
+
+
+
