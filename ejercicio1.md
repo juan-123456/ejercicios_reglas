@@ -1,8 +1,10 @@
 # ejercicios_reglas
 
++ First we add our libraries to then load the data from the link
+
 import pandas as pd
 df_relinc=pd.read_csv("https://raw.githubusercontent.com/juan-123456/nose/master/README.csv")
-df_relinc.head(): 
+df_relinc.head():  
 
 df_relinc=df_relinc.melt(id_vars=["personas"],var_name=["dinero"],value_name="debe")
 df_relinc.head()
